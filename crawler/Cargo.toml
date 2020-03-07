@@ -1,0 +1,17 @@
+[package]
+name = "crawler"
+version = "0.1.0"
+authors = ["Furqan Shaikh <furqan.shaikh@omio.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = "0.4"
+serde_json = "1.0"
+futures = { version = "0.3", features = ["compat"] }
+reqwest = { version = "0.10", features = ["json"] }
+tokio = { version = "0.2", features = ["full"] }
+scraper = "0.11.0"
+async-trait="0.1.24"
+geojson= "*"
