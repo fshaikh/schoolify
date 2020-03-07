@@ -1,6 +1,7 @@
 use crate::utils::file_utils::get_text_file_data;
 use crate::utils::json_parser::deserialize;
 use crate::models::crawler_config::CrawlerConfig;
+
 /// Contains definitions for all code related to parsing command line arguments
 // Standard modules
 use std::env;
@@ -88,7 +89,7 @@ mod tests {
     #[test]
     fn it_should_return_region_correctly() {
         let args: Vec<String> = vec![String::from("filename"), String::from("berlin")];
-        let parser_response = crate::Services::CLIParser::parse(args);
+        let parser_response = crate::services::cli_parser::parse(args);
         match parser_response {
             Ok(result) => assert_eq!(result.region, "berlin"),
             Err(err) => {}
@@ -98,7 +99,7 @@ mod tests {
     #[test]
     fn it_should_return_error_correctly() {
         let args: Vec<String> = vec![String::from("filename")];
-        let parser_response = crate::services::CLIParser::parse(args);
+        let parser_response = crate::services::cli_parser::parse(args);
         match parser_response {
             Ok(result) => {}
             Err(err) => assert_eq!(
