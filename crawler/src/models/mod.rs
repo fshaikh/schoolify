@@ -7,3 +7,4 @@ pub mod location;
 pub mod mapping;
 pub mod school;
 pub mod catchment_area;
+pub mod geocode;
