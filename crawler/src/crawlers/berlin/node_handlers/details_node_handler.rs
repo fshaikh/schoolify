@@ -12,7 +12,6 @@ pub async fn process(
 ) -> Result<DetailsResult, Error> {
     // construct details url from root_result and request
     let details_url = construct_details_url(request, root_result);
-    // println!("Details URL: {}", details_url);
     // call school gateway to get the details html
     let details_html_result = fetch_school_details(&details_url).await?;
     // parse the html using html parser adaptor

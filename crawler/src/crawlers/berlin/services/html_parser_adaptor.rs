@@ -125,6 +125,7 @@ pub fn get_school_details_result(
         url: get_weburl(&parser, &details_main_element),
         primary_contact: get_primary_contact(&parser, &details_main_element),
         languages: get_languages(&parser, &details_main_element),
+        location: None,
     });
 }
 
