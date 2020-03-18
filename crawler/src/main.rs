@@ -1,10 +1,9 @@
-
-mod services;
 mod appcontroller;
 mod crawlers;
-mod platform;
-mod utils;
 mod models;
+mod platform;
+mod services;
+mod utils;
 
 #[tokio::main]
 async fn main() {

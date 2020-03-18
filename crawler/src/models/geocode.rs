@@ -6,7 +6,7 @@ pub struct GeocodeRequest {
 
 pub struct GeocodeResponse {
     // Address(String),
-    pub location: Location
+    pub location: Location,
 }
 
 impl GeocodeResponse {

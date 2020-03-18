@@ -1,9 +1,10 @@
-use crate::models::error::Error;
 use crate::models::crawler_request::CrawlerRequest;
 use crate::models::crawler_response::CrawlerResponse;
+use crate::models::error::Error;
 /// Application Controller. Entry point into the application
 use crate::services::cli_parser::{parse, read_args};
 use crate::services::crawler_service::crawl_region;
+use crate::services::statistics_service::get_statistics_formatted;
 
 pub async fn start() -> Result<CrawlerResponse, Error> {
     // Parse the CLI arguments and handle the response
@@ -30,7 +31,12 @@ async fn process_crawl(request: &CrawlerRequest) -> Result<CrawlerResponse, Erro
     }
 
     // call crawler service
-    return crawl_region(request).await;
+    let response = crawl_region(request).await;
+    println!(
+        "Crawling Completed. Statistics: {}",
+        get_statistics_formatted()
+    );
+    return response;
 }
 
 fn is_valid_region(request: &CrawlerRequest) -> bool {

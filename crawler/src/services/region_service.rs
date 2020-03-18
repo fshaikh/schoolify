@@ -1,6 +1,5 @@
 /// Handles all region related functinality
-
-use  crate::models::crawler_request::CrawlerRequest;
+use crate::models::crawler_request::CrawlerRequest;
 const VALID_REGIONS: [&str; 1] = ["berlin"];
 
 pub fn is_valid_region(request: &CrawlerRequest) -> bool {

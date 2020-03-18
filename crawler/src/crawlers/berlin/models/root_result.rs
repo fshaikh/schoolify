@@ -23,6 +23,10 @@ impl RootResults {
         self.results.push(result)
     }
 
+    pub fn get_results(&self, start: usize, end: usize) -> &[RootResult] {
+        &self.results[start..end]
+    }
+
     // pub fn count(&self) -> usize {
     //     self.results.len()
     // }

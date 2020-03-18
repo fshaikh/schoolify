@@ -1,5 +1,4 @@
 /// Model representating the details result of a school crawling
-
 use crate::models::location::Location;
 
 pub struct DetailsResult {
@@ -33,6 +32,13 @@ impl DetailsResult {
         return self.get_string_value(&self.primary_contact);
     }
 
+    pub fn get_languages(&self) -> Vec<String> {
+        match &self.languages {
+            None => vec![],
+            Some(languages) => languages.to_vec(),
+        }
+    }
+
     fn get_string_value(&self, value: &Option<String>) -> String {
         return match value {
             Some(val) => val.to_string(),
@@ -43,7 +49,7 @@ impl DetailsResult {
     fn get_location_value(&self) -> String {
         return match &self.location {
             Some(location) => location.format(),
-            None => "".to_string()
+            None => "".to_string(),
         };
     }
 
@@ -70,5 +76,23 @@ impl DetailsResult {
             self.languages,
             self.get_location_value()
         );
+    }
+}
+
+impl Default for DetailsResult {
+    fn default() -> Self {
+        DetailsResult {
+            address: None,
+            tel: None,
+            fax: None,
+            email: None,
+            url: None,
+            primary_contact: None,
+            languages: None,
+            location: Some(Location {
+                longitude: 13.426008,
+                latitude: 52.536780,
+            }),
+        }
     }
 }

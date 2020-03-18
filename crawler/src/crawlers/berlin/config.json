@@ -1,16 +1,24 @@
 {
     "region": "berlin",
     "version": "1.0",
-    "gateway": {
-        "schools":{
+    "schools": {
+        "gateway" :{
             "root" : "https://www.berlin.de/sen/bildung/schule/berliner-schulen/schulverzeichnis/SchulListe.aspx",
-            "details": "https://www.berlin.de/sen/bildung/schule/berliner-schulen/schulverzeichnis/",
-            "file":""
+            "details": "https://www.berlin.de/sen/bildung/schule/berliner-schulen/schulverzeichnis/"
         },
-        "catchmentareas":{
-            "root": "https://daten.berlin.de/tags/schulsprengel",
-            "details": "",
-            "file": "catchmentarea_2019-06.geojson"
-        }
+        "cache": {
+            "file":"_root_truncated.htm"
+        },
+        "usecache": true
+    },
+    "catchmentareas":{
+        "gateway" :{
+            "root" : "https://daten.berlin.de/tags/schulsprengel",
+            "details": ""
+        },
+        "cache": {
+            "file":"catchmentarea_2019-06.geojson"
+        },
+        "usecache": true
     }
 }
