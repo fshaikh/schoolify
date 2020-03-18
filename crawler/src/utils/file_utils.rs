@@ -26,10 +26,11 @@ fn make_error(file_path: &String, err: std::io::Error) -> FileError {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
     #[test]
     fn it_should_load_text_file() {
         let config_path = format!("./src/crawlers/{}/config.json", "berlin");
-        let result = crate::utils::file_utils::get_text_file_data(config_path);
+        let result = get_text_file_data(config_path);
         let is_none = result.is_err();
         assert_eq!(is_none, false);
     }

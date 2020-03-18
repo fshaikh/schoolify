@@ -14,3 +14,10 @@ pub fn get_string_value(value: &Value) -> String {
         _ => panic!("Invalid config value. Unable to match to string value"),
     };
 }
+
+pub fn get_boolean_value(value: &Value) -> bool {
+    return match value {
+        Value::Bool(val) => *val,
+        _ => panic!("Invalid config value. Unable to match to boolean value"),
+    };
+}

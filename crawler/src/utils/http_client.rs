@@ -1,6 +1,5 @@
 /// HTTP(S) related functions
-
-use reqwest::{Url};
+use reqwest::Url;
 
 #[derive(Debug)]
 pub struct HttpRequest {

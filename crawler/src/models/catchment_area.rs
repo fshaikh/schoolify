@@ -1,6 +1,6 @@
-use geojson::PolygonType;
-
 use crate::models::object_base::ObjectBase;
+use geojson::PolygonType;
+use std::fmt;
 
 pub enum GeometryValue {
     Polygon(PolygonType),
@@ -19,4 +19,27 @@ pub struct CatchmentArea {
     /// Geometry of the catchment area in the form of array of lat/lon.
     /// We can standardize this to a MultiPolygon data structure
     pub geometry: GeometryValue,
+}
+
+impl Default for CatchmentArea {
+    fn default() -> Self {
+        CatchmentArea {
+            meta: Default::default(),
+            area_key: "".to_string(),
+            district_key: "".to_string(),
+            district_name: "".to_string(),
+            geometry: GeometryValue::Polygon(vec![]),
+        }
+    }
+}
+
+impl fmt::Debug for CatchmentArea {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("CatchmentArea")
+            .field("meta", &self.meta)
+            .field("Area Key", &self.area_key)
+            .field("District Key", &self.district_key)
+            .field("District Name", &self.district_name)
+            .finish()
+    }
 }

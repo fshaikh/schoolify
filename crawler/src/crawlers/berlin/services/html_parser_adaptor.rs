@@ -1,8 +1,8 @@
 use crate::crawlers::berlin::models::details_result::DetailsResult;
 use crate::crawlers::berlin::models::root_result::{RootResult, RootResults};
-use crate::models::error::{Error};
+use crate::models::error::Error;
+use crate::services::html_parser_service::html_names::{A, HREF, SPAN};
 use crate::services::html_parser_service::HtmlParserService;
-use crate::services::html_parser_service::html_names::{A,SPAN,HREF};
 
 //#region CONST Members
 const ROOT_SELECTOR: &str = "table#DataListSchulen td";
@@ -26,7 +26,9 @@ const SCHOOL_LANGUAGES_ID: &str = "#ContentPlaceHolderMenuListe_lblSprachen";
 
 //#region public API
 pub fn get_school_root_results(root_html: &String) -> Result<RootResults, Error> {
-    let parser = HtmlParserService::new(root_html);
+    let parser = get_html_parser(root_html)?;
+
+    println!("html_parser_adaptor::get_school_root_results - Constructed Html Parser");
     // first get all the tds
     let elements_option = parser.select_from_root(ROOT_SELECTOR);
     if elements_option.is_none() {
@@ -98,7 +100,9 @@ pub fn get_school_details_result(
     _root_result: &RootResult,
     details_html: &String,
 ) -> Result<DetailsResult, Error> {
-    let parser = HtmlParserService::new(details_html);
+    let parser = get_html_parser(details_html)?;
+
+    println!("html_parser_adaptor::get_school_details_result - Constructed Html Parser");
     let details_elements_option = parser.select_from_root(DETAILS_MAIN_SELECTOR);
     if details_elements_option.is_none() {
         return Err(Error {
@@ -132,13 +136,21 @@ pub fn get_school_details_result(
 //#endregion public API
 
 //#region Private Area
+fn get_html_parser(html: &String) -> Result<HtmlParserService, Error> {
+    HtmlParserService::new(html).or_else(|err| {
+        println!(
+            "html_parser_adaptor::get_school_root_results - Unable to crate Html Parser: {}",
+            err.message
+        );
+        Err(err)
+    })
+}
 fn parse_root_a_element(
     parser: &HtmlParserService,
     element: &scraper::element_ref::ElementRef,
     index: u32,
 ) -> Option<(String, String)> {
-    let a_element_option =
-        parser.select_from_element(element, A);
+    let a_element_option = parser.select_from_element(element, A);
     if a_element_option.is_none() {
         return None;
     }
@@ -147,10 +159,7 @@ fn parse_root_a_element(
     let a_element = a_element_option.unwrap()[0];
 
     // parse href attribute which contains school details url
-    let href_attr_option = parser.get_attr(
-        &a_element,
-        HREF,
-    );
+    let href_attr_option = parser.get_attr(&a_element, HREF);
     if href_attr_option.is_none() {
         println!(
             "HtmlParserAdaptor::parse_root_a_element: href atrribute not found for index: {}",
@@ -176,10 +185,7 @@ fn parse_root_span_elements(
     school_id: &String,
     index: u32,
 ) -> Option<RootSchoolInfo> {
-    let span_elements_option = parser.select_from_element(
-        element,
-        SPAN,
-    );
+    let span_elements_option = parser.select_from_element(element, SPAN);
     if span_elements_option.is_none() {
         println!("HtmlParserAdaptor::parse_root_span_elements : No <span> elements found under td for index: {}", index);
         return None;
@@ -235,8 +241,8 @@ fn get_address(
     let address_street_option = parser.get_element_text(&street_element);
     let address_zipcode_option = parser.get_element_text(&zipcode_element);
 
-    let  address_street: String;
-    let  address_zipcode: String;
+    let address_street: String;
+    let address_zipcode: String;
 
     match address_street_option {
         Some(street) => address_street = street,

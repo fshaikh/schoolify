@@ -1,5 +1,7 @@
 use scraper::{element_ref::ElementRef, Html, Selector};
 
+use crate::models::error::Error;
+
 pub mod html_names {
     pub const HREF: &str = "href";
     pub const A: &str = "a";
@@ -11,9 +13,14 @@ pub struct HtmlParserService {
 }
 
 impl<'a> HtmlParserService {
-    pub fn new(html: &String) -> HtmlParserService {
+    pub fn new(html: &String) -> Result<HtmlParserService, Error> {
         let document: Html = Html::parse_document(html);
-        HtmlParserService { document }
+        if document.errors.len() != 0 {
+            return Err(Error {
+                message: document.errors[0].to_string(), // TODO: Create all error messages from vector
+            });
+        }
+        return Ok(HtmlParserService { document });
     }
 
     // pub fn get(&self, selector: &String) {

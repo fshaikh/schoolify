@@ -1,33 +1,37 @@
-use crate::services::geocoding::bing::bing_geocoder_codecs::{parse};
-use crate::models::geocode::{GeocodeResponse};
-use crate::models::error::{Error};
-use crate::models::location::{Location};
+use crate::models::error::Error;
+use crate::models::geocode::GeocodeResponse;
+use crate::models::location::Location;
+use crate::services::geocoding::bing::bing_geocoder_codecs::parse;
 
-pub fn map(response:&String) -> Result<GeocodeResponse, Error> {
+pub fn map(response: &String) -> Result<GeocodeResponse, Error> {
     let parsed_response = parse(response);
     if parsed_response.is_none() {
-        return Err(Error{
-            message: "bing_geocoder_mapper::map - Unable to parse ForwardGeocodeResponse".to_string()
+        return Err(Error {
+            message: "bing_geocoder_mapper::map - Unable to parse ForwardGeocodeResponse"
+                .to_string(),
         });
     }
 
     let forward_geocode = parsed_response.unwrap();
-    let location = Location{
-        latitude: forward_geocode.resourceSets[0].resources[0].point.coordinates[0],
-        longitude: forward_geocode.resourceSets[0].resources[0].point.coordinates[1],
+    let location = Location {
+        latitude: forward_geocode.resourceSets[0].resources[0]
+            .point
+            .coordinates[0],
+        longitude: forward_geocode.resourceSets[0].resources[0]
+            .point
+            .coordinates[1],
     };
 
-    let geocode_response = GeocodeResponse{
-        location: location
-    };
+    let geocode_response = GeocodeResponse { location: location };
     return Ok(geocode_response);
 }
 
 //#region Tests
 #[cfg(test)]
 mod tests {
+    use super::*;
     use crate::models::location::Location;
-    use crate::services::geocoding::bing::bing_geocoder_mapper::map;
+
     #[test]
     fn it_should_map_correctly() {
         let input = r#"

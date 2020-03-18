@@ -2,10 +2,10 @@
 ///
 use async_trait::async_trait;
 
-use crate::models::error::Error;
 use crate::models::crawler_request::CrawlerRequest;
 use crate::models::crawler_response::CrawlerResponse;
-use crate::models::geocode::{GeocodeRequest,GeocodeResponse};
+use crate::models::error::Error;
+use crate::models::geocode::{GeocodeRequest, GeocodeResponse};
 
 #[async_trait]
 pub trait ICrawler {
@@ -14,5 +14,5 @@ pub trait ICrawler {
 
 #[async_trait]
 pub trait IGeocoder {
-    async fn forward_geocode(&self, request: &GeocodeRequest) -> Result<GeocodeResponse,Error>;
+    async fn forward_geocode(&self, request: &GeocodeRequest) -> Result<GeocodeResponse, Error>;
 }
