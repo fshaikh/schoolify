@@ -14,7 +14,7 @@ pub struct CrawlerResponse {
 impl fmt::Debug for CrawlerResponse {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("CrawlerResponse")
-            .field("mapping", &self.Mapping)
+            .field("mapping", &self.mapping)
             .finish()
     }
 }
