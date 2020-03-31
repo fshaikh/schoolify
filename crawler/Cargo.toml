@@ -16,5 +16,5 @@ tokio = { version = "0.2", features = ["full"] }
 scraper = "0.11.0"
 async-trait="0.1.24"
 geojson= "*"
-geo="0.12.2"
+geo="0.13.0"
 uuid = {version = "0.8.1", features = ["v4"] }
