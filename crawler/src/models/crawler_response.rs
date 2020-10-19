@@ -1,10 +1,12 @@
-use std::fmt;
 use crate::models::catchment_area::CatchmentArea;
 use crate::models::mapping::Mapping;
 /// Represents a crawler response. All region crawlers must return response confirming to this
 /// data structure
 use crate::models::school::School;
+use serde::{Deserialize, Serialize};
+use std::fmt;
 
+#[derive(Serialize, Deserialize)]
 pub struct CrawlerResponse {
     pub schools: Vec<School>,
     pub catchmentareas: Vec<CatchmentArea>,
@@ -18,4 +20,3 @@ impl fmt::Debug for CrawlerResponse {
             .finish()
     }
 }
-

@@ -12,7 +12,7 @@ pub fn is_valid_region(request: &CrawlerRequest) -> bool {
     // the predicate has to take a &&
     let response = VALID_REGIONS
         .iter()
-        .find(|&&region| region == request.region);
+        .find(|&&region| region == request.region.key);
 
     // find returns Some(value) when the predicate is true for any element, else None.
     match response {

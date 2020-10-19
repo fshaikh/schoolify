@@ -1,0 +1,15 @@
+{
+    "database":{
+        "kind": "pg",
+        "connection": {
+            "host": "localhost",
+            "port":25432,
+            "user_name": "docker",
+            "password": "docker",
+            "database_name": "schoolifydb2"
+        }
+    },
+    "log": {
+        
+    }
+}

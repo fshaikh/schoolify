@@ -2,9 +2,10 @@
 // ///  This is because only public schools (or government-funded schools) are allotted to catchment area.
 // /// Stores mapping of catchment area to schools
 use crate::models::school::Schools;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Mapping {
     catchmentarea_school_mapping: HashMap<String, Schools>, // pub catchment_area : crate::Models::CatchmentArea::CatchmentArea,
                                                             // pub schools: Vec<crate::Models::School::School>

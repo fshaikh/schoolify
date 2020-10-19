@@ -10,13 +10,14 @@ use crate::models::school::{FundingType, School, SchoolType};
 use crate::services::geo_service::point_within_polygon;
 
 pub fn map(
+    region_id: &String,
     school_results: &SchoolResults,
     catchment_areas: Vec<CatchmentArea>,
 ) -> Result<CrawlerResponse, Error> {
     let mut schools: Vec<School> = Vec::new();
     let mut mapping = Mapping::new();
     school_results.results.iter().for_each(|school_result| {
-        let school = map_school(school_result, &catchment_areas);
+        let school = map_school(region_id, school_result, &catchment_areas);
         println!("Mapped School: {:?}", school);
         match school.get_catchmentarea_id() {
             Some(id) => mapping.add_school(id.clone(), school.get_id().clone()),
@@ -31,12 +32,17 @@ pub fn map(
     });
 }
 
-fn map_school(school_result: &SchoolResult, catchment_areas: &Vec<CatchmentArea>) -> School {
+fn map_school(
+    region_id: &String,
+    school_result: &SchoolResult,
+    catchment_areas: &Vec<CatchmentArea>,
+) -> School {
     let meta: ObjectBase = Default::default();
     School {
         meta: meta,
         address: school_result.details_result.get_address(),
         catchmentarea_id: map_catchment_area_id(school_result, catchment_areas),
+        region_id: region_id.to_string(),
         contact_persons: vec![school_result.details_result.get_primary_contact()],
         district: school_result.root_result.district.clone(),
         email: school_result.details_result.get_email(),

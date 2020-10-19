@@ -16,3 +16,8 @@ pub trait ICrawler {
 pub trait IGeocoder {
     async fn forward_geocode(&self, request: &GeocodeRequest) -> Result<GeocodeResponse, Error>;
 }
+
+pub trait ICacheProvider {
+    fn set(&self, key: &str, value: &Vec<u8>) -> bool;
+    // async fn get(key: &str) -> Option<V>;
+}

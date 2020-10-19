@@ -1,3 +1,4 @@
+use crate::cache::cache_service::save_crawler_response;
 use crate::crawlers::berlin::services::crawler_service::CrawlerService;
 use crate::models::crawler_request::CrawlerRequest;
 use crate::models::crawler_response::CrawlerResponse;
@@ -5,12 +6,15 @@ use crate::models::error::Error;
 use crate::platform::platform_traits::ICrawler;
 
 pub async fn crawl_region(request: &CrawlerRequest) -> Result<CrawlerResponse, Error> {
-    if request.region == "berlin".to_string() {
+    if request.region.key == "berlin".to_string() {
         // construct berlin crawler service
         let crawler = CrawlerService::new();
-        return do_crawl(&crawler, request).await;
+        let crawler_response = do_crawl(&crawler, request).await?;
+        // cache it
+        save_crawler_response(request, &crawler_response);
+        return Ok(crawler_response);
     } else {
-        panic!("Unsupported region: {}", request.region);
+        panic!("Unsupported region: {}", request.region.key);
     }
 }
 

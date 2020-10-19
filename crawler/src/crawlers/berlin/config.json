@@ -1,5 +1,11 @@
 {
-    "region": "berlin",
+    "region": {
+        "id": "7985164b-25a7-4ff8-bbe5-039068ba0dad",
+        "key": "berlin",
+        "name": "Berlin",
+        "country": "germany",
+        "continent": "europe"
+    },
     "version": "1.0",
     "schools": {
         "gateway" :{

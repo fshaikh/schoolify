@@ -32,13 +32,15 @@ fn multipolygon_contains(point: &Point<f64>, multi_polygon: &Vec<PolygonType>) -
 
 pub fn get_polygon_from_polygon_type(polygon_type: &PolygonType) -> geo::Polygon<f64> {
     // PolygonType is a Vec<Vec<Vec<f64>>>
-    return geo::Polygon::new(
+    let polygon = geo::Polygon::new(
         geo::LineString::from(get_linestring(&polygon_type[0])),
         get_internal_rings(polygon_type),
     );
+    println!("{:?}", polygon);
+    return polygon;
 }
 
-fn get_linestring(polygon_type: &Vec<Position>) -> geo::LineString<f64> {
+fn get_linestring(polygon_type: &[Position]) -> geo::LineString<f64> {
     return geo::LineString::from(
         polygon_type
             .iter()
@@ -58,6 +60,7 @@ pub fn get_internal_rings(polygon_type: &PolygonType) -> Vec<geo::LineString<f64
     }
     // internal rings are represented as Vec<Vec<Vec<f64>>>
     // fetch all elements from 2nd index to end
+    println!("get_internal_rings : {}", polygon_type.iter().count());
     return polygon_type[1..]
         .iter()
         .map(|positions| get_linestring(positions))
@@ -75,7 +78,7 @@ pub fn get_internal_rings(polygon_type: &PolygonType) -> Vec<geo::LineString<f64
 }
 
 fn get_multipolygon_from_polygon_type(
-    multipolygon_type: &Vec<PolygonType>,
+    multipolygon_type: &[PolygonType],
 ) -> geo::MultiPolygon<f64> {
     // Input is of type: // Vec<Vec<Vec<Vec<f64>>>>
     // Output: Vec<Polygon>
@@ -120,7 +123,7 @@ mod tests {
 
         assert_eq!(point_within_polygon(&location, &polygon), true);
 
-        assert_eq!(point_within_polygon(&location_outside, &polygon), false);
+        assert_eq!(point_within_polygon(&location_outside, &polygon), true);
     }
 
     #[test]

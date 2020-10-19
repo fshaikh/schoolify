@@ -9,13 +9,13 @@ use crate::utils::file_utils::get_text_file_data;
 pub async fn process_root(request: &CrawlerRequest) -> Result<RootResults, Error> {
     println!(
         "SCHOOL::CRAWLING - processing root begin: {}",
-        request.region
+        request.region.key
     );
     // fetch the root result
     let root_html = get_root_html(&request).await?;
     println!(
         "SCHOOL::CRAWLING - Fetched root html for {}",
-        request.region
+        request.region.key
     );
     // parse the html
     let root_result = get_schools_list(&root_html);
@@ -63,7 +63,7 @@ async fn get_root_html_from_gateway(request: &CrawlerRequest) -> Result<String, 
 async fn get_root_html_from_file(request: &CrawlerRequest) -> Result<String, Error> {
     let config_path = format!(
         "./.cache/{}/{}",
-        request.region, request.config.schools.cache.file
+        request.region.key, request.config.schools.cache.file
     );
 
     get_text_file_data(config_path).or_else(|err| {

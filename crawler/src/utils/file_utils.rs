@@ -1,4 +1,6 @@
 /// File utilities
+use std::fs::{read, read_to_string};
+use std::path::Path;
 
 pub struct FileError {
     pub path: String,
@@ -6,15 +8,19 @@ pub struct FileError {
 }
 
 pub fn get_text_file_data(file_path: String) -> Result<String, FileError> {
-    let path = std::path::Path::new(&file_path);
+    let path = Path::new(&file_path);
 
-    let file_result = std::fs::read_to_string(&path);
+    let file_result = read_to_string(&path);
     match file_result {
         Ok(data) => Ok(data),
         Err(err) => {
             return Err::<String, FileError>(make_error(&file_path, err));
         }
     }
+}
+
+pub fn read_file(file_path: &String) -> Result<Vec<u8>, FileError> {
+    read(&Path::new(file_path)).or_else(|err| Err(make_error(file_path, err)))
 }
 
 fn make_error(file_path: &String, err: std::io::Error) -> FileError {

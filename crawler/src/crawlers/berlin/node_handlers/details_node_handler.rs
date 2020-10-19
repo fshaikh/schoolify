@@ -32,7 +32,7 @@ pub async fn process(
     return get_school_details_result(root_result, &details_html_result);
 }
 
-fn construct_details_url(request: &CrawlerRequest, root_result: &RootResult) -> String {
+fn construct_details_url(_request: &CrawlerRequest, root_result: &RootResult) -> String {
     return format!("{}", root_result.details_url);
 }
 

@@ -21,11 +21,11 @@ pub fn fetch_catchmentareas_core(request: &CrawlerRequest) -> Result<Vec<Catchme
     // read the file which contains the geojson
     let geojson_value_result = get_geojson_value(request);
     return match geojson_value_result {
-        Ok(geojson_str) => Ok(parse_geojson(&request.region, &geojson_str)),
+        Ok(geojson_str) => Ok(parse_geojson(&request.region.id, &geojson_str)),
         Err(_) => Err(Error {
             message: format!(
                 "Unable to read/parse catchment area geojson: {}",
-                request.region
+                request.region.key
             ),
         }),
     };
@@ -34,7 +34,7 @@ pub fn fetch_catchmentareas_core(request: &CrawlerRequest) -> Result<Vec<Catchme
 fn get_geojson_value(request: &CrawlerRequest) -> Result<String, FileError> {
     let config_path = format!(
         "./.cache/{}/{}",
-        request.region, request.config.catchmentareas.cache.file
+        request.region.key, request.config.catchmentareas.cache.file
     );
     return get_text_file_data(config_path);
 }
@@ -50,7 +50,7 @@ fn get_geojson_value(request: &CrawlerRequest) -> Result<String, FileError> {
 ///                 type (point, multipoint, linestring, multilinestring, polygon, multipolygon)
 ///                 coordinates
 
-fn parse_geojson(_region: &String, geojson_str: &String) -> Vec<CatchmentArea> {
+fn parse_geojson(region: &String, geojson_str: &String) -> Vec<CatchmentArea> {
     let geojson = geojson_str.parse::<GeoJson>().unwrap();
     let mut catchment_areas = Vec::new();
     match geojson {
@@ -67,6 +67,7 @@ fn parse_geojson(_region: &String, geojson_str: &String) -> Vec<CatchmentArea> {
                 let geometry = get_geometry_value(&feature.geometry.unwrap(), &area_key);
                 let catchment_area = CatchmentArea {
                     meta: Default::default(),
+                    region_id: region.to_string(),
                     area_key: area_key,
                     district_key: district_key,
                     district_name: district_name,

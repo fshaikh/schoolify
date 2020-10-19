@@ -13,7 +13,7 @@ pub struct HtmlParserService {
 }
 
 impl<'a> HtmlParserService {
-    pub fn new(html: &String) -> Result<HtmlParserService, Error> {
+    pub fn new(html: &str) -> Result<HtmlParserService, Error> {
         let document: Html = Html::parse_document(html);
         if document.errors.len() != 0 {
             return Err(Error {

@@ -49,11 +49,3 @@ async functions in trait
 dyn keyword in trait
 
 
-
-// Iterators
-// collect method
-// Lifetime concept
-// Revisit CLIParser to see if clone can be replaced with something else after understanding lifetime
-// Logging.  It should be like a 12-factor app so that when its deployed to docker, can stream to stdout/stderr
-//           For dev, environment, should be able to log to file
-

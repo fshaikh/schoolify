@@ -2,21 +2,22 @@ use crate::models::location::Location;
 /// Data structure representing School domain object
 ///
 use crate::models::object_base::ObjectBase;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum FundingType {
     Public,
     Private,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum SchoolType {
     Kindergarten,
     Primary,
     Secondary,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct School {
     pub meta: ObjectBase,
     /// School Id provided by the data source
@@ -48,6 +49,7 @@ pub struct School {
     pub fees: String,
     /// Lat/lon for the school based on the address.
     pub location: Option<Location>,
+    pub region_id: String,
     /// Catchment Area Id of the school. If school does not belong to any catchment area, this will be blank.
     ///  This is useful to fetch schools based on location proximity and not just catchment area.
     pub catchmentarea_id: Option<String>,
@@ -61,9 +63,16 @@ impl School {
     pub fn get_catchmentarea_id(&self) -> Option<&String> {
         self.catchmentarea_id.as_ref()
     }
+
+    pub fn get_location_vector(&self) -> Vec<f64> {
+        match &self.location {
+            Some(location) => vec![location.longitude, location.latitude],
+            None => vec![0.0, 0.0],
+        }
+    }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Schools {
     schools: Vec<String>,
 }

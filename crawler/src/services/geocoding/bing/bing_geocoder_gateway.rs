@@ -4,7 +4,7 @@ use crate::utils::http_client::{encode_url, get, HttpRequest};
 
 const GEOCODE_URL: &str = "https://dev.virtualearth.net/REST/v1/Locations?";
 // Do not commit
-const API_KEY: &str = "";
+const API_KEY: &str = "AuPgNHzfnbZfOxi8PiP4XKCESioiNPVOhRwL5JHbFs41oP1PEkt71_iPoCRQgqUL";
 
 pub struct BingGeocodeGatewayRequest {
     pub address: String,

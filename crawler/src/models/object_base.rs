@@ -2,8 +2,9 @@
 extern crate chrono;
 use crate::services::id_service::get_unique_id;
 use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct ObjectBase {
     pub id: String,
     pub created_at: DateTime<Utc>,

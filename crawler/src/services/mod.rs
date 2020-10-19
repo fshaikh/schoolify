@@ -1,5 +1,7 @@
 pub mod cli_parser;
+pub mod config_service;
 pub mod crawler_service;
+pub mod database_service;
 pub mod geo_service;
 pub mod geocoding;
 pub mod html_parser_service;

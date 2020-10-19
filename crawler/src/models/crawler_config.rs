@@ -35,7 +35,7 @@ pub struct CrawlerConfig {
 }
 
 impl CrawlerConfig {
-    pub fn construct(v: Value) -> CrawlerConfig {
+    pub fn construct(v: &Value) -> CrawlerConfig {
         return CrawlerConfig {
             version: get_string_value(&v["version"]),
             schools: CrawlerSchoolConfig {

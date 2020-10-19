@@ -9,7 +9,7 @@ pub async fn fetch_schools_root(request: &CrawlerRequest) -> Result<String, Erro
     if response.status_code != 200 {
         let message = std::format!(
             "SchoolGateway::do_get. Error fetching for root for region: {}, {}",
-            request.region,
+            request.region.key,
             response.error
         );
         return Err(Error { message: message });

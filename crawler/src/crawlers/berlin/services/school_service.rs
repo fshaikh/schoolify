@@ -24,7 +24,7 @@ async fn fetch_schools_core(request: &CrawlerRequest) -> Result<SchoolResults, V
 
     println!(
         "SCHOOL::CRAWLING - Crawling schools for: {}",
-        request.region
+        request.region.key
     );
     let root_results_result = process_root(request).await;
 

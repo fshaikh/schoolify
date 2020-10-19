@@ -39,10 +39,11 @@ impl CrawlerService {
 
     fn do_map(
         &self,
+        region_id: &String,
         school_results: &SchoolResults,
         catchment_areas: Vec<CatchmentArea>,
     ) -> Result<CrawlerResponse, Error> {
-        map(school_results, catchment_areas)
+        map(region_id, school_results, catchment_areas)
     }
 }
 
@@ -59,11 +60,12 @@ impl ICrawler for CrawlerService {
         let catchment_areas_result = self.crawl_catchmentareas(request);
 
         // 3.  call mapper
-        let mapper_response = self.do_map(&schools_result, catchment_areas_result);
+        let mapper_response =
+            self.do_map(&request.region.id, &schools_result, catchment_areas_result);
 
         record_total_crawl_time(now.elapsed().as_secs_f64());
 
-        println!("Finished Crawling for : {}", request.region);
+        println!("Finished Crawling for : {}", request.region.key);
         println!("Crawler Response: {:?}", mapper_response);
         // 4. return results
         return mapper_response;

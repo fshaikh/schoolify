@@ -21,3 +21,14 @@ pub fn get_boolean_value(value: &Value) -> bool {
         _ => panic!("Invalid config value. Unable to match to boolean value"),
     };
 }
+
+pub fn get_number_value(value: &Value) -> u64 {
+    let number_option = match value {
+        Value::Number(val) => val.as_u64(),
+        _ => panic!("Invalid config value. Unable to match to integer value"),
+    };
+    match number_option {
+        Some(number) => number,
+        _ => panic!("Invalid config value. Unable to parse to integer value"),
+    }
+}

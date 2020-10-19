@@ -7,4 +7,5 @@ pub mod geocode;
 pub mod location;
 pub mod mapping;
 pub mod object_base;
+pub mod region_config;
 pub mod school;
